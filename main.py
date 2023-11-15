@@ -1,5 +1,5 @@
-import nameManagement
 from util import checkForExit
+from nameManagement import *
 
 def main():
 
@@ -12,8 +12,19 @@ def main():
     print(f"Hi, {username}.")
 
     while True:
-        print("How can I help you?")
+        print("User: ")
         userInput = checkForExit(username)
+
+        ### NAME MANAGEMENT ###
+        giveName(userInput)
+        changeName = changeName(userInput, username)
+        if changeName != False:
+            username = changeName
+
+        ### INITIAL INTENT MATCHING ###
+
+
+        
 
 
 
