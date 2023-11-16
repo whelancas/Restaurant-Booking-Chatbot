@@ -3,6 +3,9 @@ from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
+from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics import pairwise_distances
 
 from nltk.corpus import stopwords
 
@@ -11,7 +14,6 @@ from nltk.corpus import stopwords
 docs = {
     "small talk":       "smalltalk.csv",
     "discoverability":  "discoverability.csv",
-    "qa":               "qa-dataset.csv"
 }
 
 data = []
@@ -27,7 +29,7 @@ for doc in docs.keys():
 #print(data)
 #print(labels)
 
-xTrain, xTest, yTrain, yTest = train_test_split(data, labels, stratify=labels, test_size=0.25, random_state=1)
+xTrain, yTrain = data, labels
 
 countVect = CountVectorizer(stop_words=stopwords.words('english'))
 xTrainCounts = countVect.fit_transform(xTrain)
@@ -36,6 +38,10 @@ xTrainTF = tfidTransformer.transform(xTrainCounts)
 
 classifier = LogisticRegression(random_state=0).fit(xTrainTF, yTrain)
 
+### COSINE SIMILARITY ###
+
+
+
 ### EVALUATION ###
 
 xTestCounts = countVect.transform(xTest)
@@ -43,13 +49,19 @@ xTestTfidf = tfidTransformer.transform(xTestCounts)
 
 predicted = classifier.predict(xTestTfidf)
 
-print(confusion_matrix(yTest, predicted))
-print(accuracy_score(yTest, predicted))
+#print(confusion_matrix(yTest, predicted))
+#print(accuracy_score(yTest, predicted))
 
-testInput = ['how are you today?', 'can you help me book a table?', 'hello']
-# expected output: small talk, discoverability, small talk
+testInput = ['was you day nice', 'can you help me book a table?', 'can i reserve a table at blue dragon']
+# expected output: small talk, discoverability, discoverability
 
 processedTestInput = countVect.transform(i.strip('?').lower() for i in testInput)
 processedTestInput = tfidTransformer.transform(processedTestInput)
 
-print(classifier.predict(processedTestInput))
+#print(classifier.predict(processedTestInput))
+
+def stDiscClassifier(query):
+    processedInput = countVect.transform([query.strip('?').lower()])
+    processedInput = tfidTransformer.transform(processedInput)
+
+    return(classifier.predict(processedInput))
