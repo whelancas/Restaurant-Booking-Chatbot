@@ -1,11 +1,14 @@
 from util import checkForExit
 
 def giveName(input, username):
-    if "my" in input.lower() and "name" in input.lower():
+    if "my" in input.lower() and "name" in input.lower() and "change" not in input.lower():
         print(f"Your name is {username}")
 
     elif "your" in input.lower() and "name" in input.lower():
         print("I do not have a name.")
+
+    else:
+        return False
 
 def changeName(input, username):
     if "change" in input.lower() and "name" in input.lower():
@@ -15,4 +18,5 @@ def changeName(input, username):
         
         return newName
     
-    return False
+    else:
+        return False

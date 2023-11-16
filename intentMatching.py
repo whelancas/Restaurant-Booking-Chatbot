@@ -2,12 +2,8 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
-from sklearn.metrics.pairwise import cosine_similarity
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics import pairwise_distances
+from sklearn.metrics import accuracy_score, confusion_matrix
 
-from nltk.corpus import stopwords
 
 ### INITIAL INTENT MATCHING ###
 
@@ -31,37 +27,50 @@ for doc in docs.keys():
 
 xTrain, yTrain = data, labels
 
-countVect = CountVectorizer(stop_words=stopwords.words('english'))
+countVect = CountVectorizer()
 xTrainCounts = countVect.fit_transform(xTrain)
 tfidTransformer = TfidfTransformer(use_idf=True, sublinear_tf=True).fit(xTrainCounts)
 xTrainTF = tfidTransformer.transform(xTrainCounts)
 
 classifier = LogisticRegression(random_state=0).fit(xTrainTF, yTrain)
 
-### COSINE SIMILARITY ###
-
-
-
 ### EVALUATION ###
 
-xTestCounts = countVect.transform(xTest)
-xTestTfidf = tfidTransformer.transform(xTestCounts)
+#xTestCounts = countVect.transform(xTest)
+#xTestTfidf = tfidTransformer.transform(xTestCounts)
 
-predicted = classifier.predict(xTestTfidf)
+#predicted = classifier.predict(xTestTfidf)
+#print(classifier.predict_proba(xTestTfidf))
+
+#print(xTestTfidf)
 
 #print(confusion_matrix(yTest, predicted))
 #print(accuracy_score(yTest, predicted))
 
-testInput = ['was you day nice', 'can you help me book a table?', 'can i reserve a table at blue dragon']
+#testInput = ['was you day nice', 'can you help me book a table?', 'can i reserve a table at blue dragon']
 # expected output: small talk, discoverability, discoverability
 
-processedTestInput = countVect.transform(i.strip('?').lower() for i in testInput)
-processedTestInput = tfidTransformer.transform(processedTestInput)
+#processedTestInput = countVect.transform(i.strip('?').lower() for i in testInput)
+#processedTestInput = tfidTransformer.transform(processedTestInput)
 
 #print(classifier.predict(processedTestInput))
+#print(classifier.predict_proba(processedTestInput))
 
 def stDiscClassifier(query):
-    processedInput = countVect.transform([query.strip('?').lower()])
+
+    minThreshold = 0.53
+    confidentTheshold = 0.65
+
+    processedInput = countVect.transform(i.strip('?').lower() for i in [query])
     processedInput = tfidTransformer.transform(processedInput)
 
-    return(classifier.predict(processedInput))
+    probability = classifier.predict_proba(processedInput)
+    
+    if probability.max() < minThreshold:
+        return ["unclear"]
+    elif probability.max() > minThreshold and probability.max() < confidentTheshold:
+        return ["confirm", classifier.predict(processedInput)]
+    else:
+        return(classifier.predict(processedInput))
+
+    
