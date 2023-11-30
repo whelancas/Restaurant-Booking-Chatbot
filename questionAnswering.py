@@ -11,15 +11,17 @@ with open("qa-dataset.csv", 'r', encoding='utf8') as file:
             answers.append(columns[1])
 
 def qaSimilarity(userInput):
-      tfidfVectoriser = TfidfVectorizer()
-      tdidfMatrix = tfidfVectoriser.fit_transform(questions + [userInput.strip('?').lower()])
+    tfidfVectoriser = TfidfVectorizer()
+    tdidfMatrix = tfidfVectoriser.fit_transform(questions + [userInput.strip('?').lower()])
 
-      cosine = cosine_similarity(tdidfMatrix[-1], tdidfMatrix[:-1])
+    cosine = cosine_similarity(tdidfMatrix[-1], tdidfMatrix[:-1])
 
-      print(cosine)
+    mostSimilarIndex = cosine.argmax() # returns index of highest value in matrix
+    probability = cosine.max() # rteurns highest probability (num between 0 and 1)
+    mostSimilarQ = questions[mostSimilarIndex]
+    mostSimilarA = answers[mostSimilarIndex]
 
-      mostSimilarIndex = cosine.argmax()
-      mostSimilarQ = questions[mostSimilarIndex]
-      mostSimilarA = answers[mostSimilarIndex]
-
-      return [mostSimilarQ, mostSimilarA]
+    if probability > 0.55: 
+        return [mostSimilarQ, mostSimilarA]
+    else:
+         return False

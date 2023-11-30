@@ -1,7 +1,16 @@
 from util import checkForExit
 from nameManagement import *
-from intentMatching import stDiscClassifier
+from intentMatching import stDiscClassifier, smalltalkSimilarity
 from questionAnswering import qaSimilarity
+
+discoverability = """
+        What I can do:
+        1. Make a booking
+        2. Alter a booking
+        3. Cancel a booking
+        4. Find information on a restaurant
+            (e.g. opening times, address, contact info, etc.)
+"""
 
 def mainLoop(username):
     while True:
@@ -18,24 +27,32 @@ def mainLoop(username):
             mainLoop(username)
 
         ### QUESTION ANSWERING ###
-
         question = qaSimilarity(userInput)
-        print(question)
+        if question != False:
+            print(f"The answer to '{question[0]}' is: {question[1]}")
+            mainLoop(username)
 
         ### INITIAL INTENT MATCHING ###
         initialIntent = stDiscClassifier(userInput)
+        smalltalk = smalltalkSimilarity(userInput)
         
         if initialIntent[0] == "unclear":
             print("I don't understand, sorry. Please could you rephrase?")
         elif initialIntent[0] == "confirm":
             if initialIntent[1] == "small talk":
-                print("maybe small talk")
+                if smalltalk != False:
+                    print(smalltalk[1])
+                else:
+                    print("I don't understand, sorry. Please could you rephrase?")
             else:
-                print("maybe discoverability")
+                print(discoverability)
         elif initialIntent[0] == "small talk":
-            print("small talk")
+            if smalltalk != False:
+                print(smalltalk[1])
+            else:
+                print("I don't understand, sorry. Please could you rephrase?")
         else:
-            print("discoverability")
+            print(discoverability)
 
 def main():
 

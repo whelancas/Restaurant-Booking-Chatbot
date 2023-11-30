@@ -3,6 +3,31 @@ from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, confusion_matrix
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+questions = []
+answers = []
+
+with open("smalltalk.csv", 'r', encoding='utf8') as file:
+    for line in file:
+        columns = line.lower().strip('\n').strip('?').split(',')
+        questions.append(columns[0])
+        answers.append(columns[1])
+
+def smalltalkSimilarity(userInput):
+    tfidfVectoriser = TfidfVectorizer()
+    tdidfMatrix = tfidfVectoriser.fit_transform(questions + [userInput.strip('?').lower()])
+
+    cosine = cosine_similarity(tdidfMatrix[-1], tdidfMatrix[:-1])
+
+    mostSimilarIndex = cosine.argmax()
+    proability = cosine.max()
+    mostSimilarQ = questions[mostSimilarIndex]
+    mostSimilarA = answers[mostSimilarIndex]
+
+    if proability > 0.55: 
+        return [mostSimilarQ, mostSimilarA]
 
 
 ### INITIAL INTENT MATCHING ###
