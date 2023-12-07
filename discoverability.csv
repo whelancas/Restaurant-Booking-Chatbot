@@ -1,89 +1,97 @@
-what can you do
-what can i do
-tell me about what you can do
-what are you features
-what are your capabilities
-can you help me book a table at blue dragon
-can you help me with finding somewhere to eat
-can you tell me about a restaurant
-tell me what you can do
-can you give me information on
-can i book a table
-can i cancel a booking
-can i change my booking
-can you do
-could you help me
-please could I book at a restaurant
-I need to change my booking
-I would like to cancel  a booking
-I want to get some information
-what can you do
-blue dragon
-bella italia
-what is your menu
-can i see the menu
-what restaurant do you recommend
-where can i get a burger
-i would like to know what you can do
-chinese
-indian
-i would like to eat chinese food
-i would like to order food
-please can i order food
-please can i reserve a table
-i would like to reserve a table
-please can i contact a restaurant
-burger
-could you list what you can do
-please could I book at a restaurant
-what can you do
-I need to change my booking
-I would like to cancel  a booking
-I want to get some information
-blue dragon
-bella italia
-what is your menu
-can i see the menu
-what restaurant do you recommend
-where can i get a burger
-what sort of things can you do
-chinese
-indian
-what can you do
-what can i do
-tell me about what you can do
-what are you features
-what are your capabilities
-can you help me book a table at blue dragon
-can you help me with finding somewhere to eat
-what sort of things can you do
-can you tell me about a restaurant
-can you give me information on
-can i book a table
-can you tell me about a restaurant
-can you give me information on
-can i book a table
-can i cancel a booking
-can i change my booking
-could you help me
-please could I book at a restaurant
-I need to change my booking
-I would like to cancel  a booking
-I want to get some information
-what can you do
-blue dragon
-bella italia
-what is your menu
-can i see the menu
-i would like to order food
-please can i order food
-what can you do
-please can i reserve a table
-i would like to reserve a table
-please can i contact a restaurant
-burger
-please could I book at a restaurant
-I need to change my booking
-I would like to cancel  a booking
-I want to get some information
-what can you do
+what can you do,0
+what can i do,0
+tell me about what you can do,0
+what are you features,0
+what are your capabilities,0
+can you help me book a table at blue dragon,1
+can you help me with finding somewhere to eat,4
+can you tell me about a restaurant,4
+tell me what you can do,0
+can you give me information on,0
+can i book a table,1
+can i cancel a booking,3
+can i change my booking,2
+can you do,0
+could you help me,0
+please could I book at a restaurant,1
+I need to change my booking,2
+I would like to cancel  a booking,3
+I want to get some information,4
+what can you do,0
+blue dragon,4
+bella italia,4
+what is your menu,4
+can i see the menu,4
+what restaurant do you recommend,4
+where can i get a burger,4
+i would like to know what you can do,0
+chinese,4
+indian,4
+i would like to eat chinese food,4
+i would like to order food,4
+please can i order food,4
+please can i reserve a table,1
+i would like to reserve a table,1
+please can i contact a restaurant,4
+burger,4
+could you list what you can do,0
+please could I book at a restaurant,1
+what can you do,0
+I need to change my booking,2
+I would like to cancel  a booking,3
+I want to get some information,4
+blue dragon,4
+bella italia,4
+what is your menu,4
+can i see the menu,4
+what restaurant do you recommend,4
+where can i get a burger,4
+what sort of things can you do,0
+chinese,4
+indian,4
+what can you do,0
+what can i do,0
+tell me about what you can do,0
+what are you features,0
+what are your capabilities,0
+can you help me book a table at blue dragon,1
+can you help me with finding somewhere to eat,4
+what sort of things can you do,0
+can you tell me about a restaurant,4
+can you give me information on,4
+can i book a table,1
+can you tell me about a restaurant,4
+can you give me information on,4
+can i book a table,1
+can i cancel a booking,3
+can i change my booking,2
+could you help me,0
+please could I book at a restaurant,1
+I need to change my booking,2
+I would like to cancel  a booking,3
+I want to get some information,4
+what can you do,0
+blue dragon,4
+bella italia,4
+what is your menu,4
+can i see the menu,4
+i would like to order food,4
+please can i order food,4
+what can you do,0
+please can i reserve a table,1
+i would like to reserve a table,1
+please can i contact a restaurant,4
+burger,4
+please could I book at a restaurant,1
+I need to change my booking,2
+I would like to cancel  a booking,3
+I want to get some information,4
+what can you do,0
+can i make a booking,1
+can i book,1
+book,1
+booking,1
+change,2
+alter,2
+edit,2
+cancel,3
