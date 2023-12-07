@@ -1,6 +1,8 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
+from util import checkForExit
+
 discoverability = """
         What I can do:
         1. Make a booking
@@ -30,14 +32,14 @@ def discoverabilitySimilarity(userInput):
     mostSimilarQ = queries[mostSimilarIndex]
     mostSimilarR = responses[mostSimilarIndex]
 
-    if probability > 0.55: 
-        if mostSimilarR == "1":
+    if probability > 0.55 or userInput in ["1", "2", "3", "4"]: 
+        if mostSimilarR == "1" or userInput == "1":
             ret = bookingReservation()
-        elif mostSimilarR == "2":
+        elif mostSimilarR == "1" or userInput == "2":
             ret = editingReservation()
-        elif mostSimilarR == "3":
+        elif mostSimilarR == "1" or userInput == "3":
             ret = cancellingReservation()
-        elif mostSimilarR == "4":
+        elif mostSimilarR == "1" or userInput == "4":
             ret = restaurantInfo()
         else:
             return [mostSimilarQ, discoverability]
@@ -47,7 +49,14 @@ def discoverabilitySimilarity(userInput):
     return False
 
 def bookingReservation():
-    return "Booking"
+    print("\n\nMaking a Reservation\n")
+
+    print("To go back, type BACK.\n")
+    userInput = checkForExit()
+    if userInput.lower() == "back":
+        return
+
+    print(userInput)
 
 def editingReservation():
     return "Editing"
@@ -55,9 +64,21 @@ def editingReservation():
 def cancellingReservation():
     return "Cancelling"
 
+restaurants = []
+with open("restaurants.csv", 'r', encoding='utf8') as file:
+    for line in file:
+        restaurants.append(line.strip("\n").split(","))
+
 def restaurantInfo():
-    return "Info"
+    print("\nHere are the restaurants you can make reservations at:")
+    for res in restaurants:
+        print(f"""
+              {res[0]}
+              Opening Hours: {res[1]}
+              Alternative Menus: {res[2]}
+              Address: {res[3]}
+              Phone Number: {res[4]}
+              Email: {res[5]}
+                """)
 
-
-### TESTING ###
 

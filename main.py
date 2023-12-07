@@ -35,13 +35,12 @@ def mainLoop(username):
                 print(smalltalk[1])
             elif initialIntent[1] == "discoverability" and disc != False:
                 print(f"I think you said {disc[0]}, so...")
-                print(disc[1])
 
         elif initialIntent[0] == "small talk" and smalltalk != False:
             print(smalltalk[1])
 
         elif initialIntent[0] == "discoverability" and disc != False:
-            print(disc[1])
+            pass
         
         else:
             print("I don't understand, sorry. Please could you rephrase?")

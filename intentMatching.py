@@ -6,7 +6,7 @@ from sklearn.metrics import accuracy_score, confusion_matrix
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-### SMALLTALK COSINE SIMILARITY ###
+### SMALL TALK COSINE SIMILARITY ###
 
 questions = []
 answers = []
@@ -18,17 +18,18 @@ with open("smalltalk.csv", 'r', encoding='utf8') as file:
         answers.append(columns[1])
 
 def smalltalkSimilarity(userInput):
+    # Finds the best match to the user input in the samll talk dataset
     tfidfVectoriser = TfidfVectorizer()
     tdidfMatrix = tfidfVectoriser.fit_transform(questions + [userInput.strip('?').lower()])
 
     cosine = cosine_similarity(tdidfMatrix[-1], tdidfMatrix[:-1])
 
     mostSimilarIndex = cosine.argmax()
-    proability = cosine.max()
+    probability = cosine.max()
     mostSimilarQ = questions[mostSimilarIndex]
     mostSimilarA = answers[mostSimilarIndex]
 
-    if proability > 0.55: 
+    if probability > 0.55: 
         return [mostSimilarQ, mostSimilarA]
     
     return False
@@ -55,6 +56,7 @@ for doc in docs.keys():
 #print(labels)
 
 xTrain, yTrain = data, labels
+#xTrain, yTrain, xTest, yTest = train_test_split(data, labels, train_size=0.25, random_state=1)
 
 countVect = CountVectorizer()
 xTrainCounts = countVect.fit_transform(xTrain)
@@ -65,25 +67,27 @@ classifier = LogisticRegression(random_state=0).fit(xTrainTF, yTrain)
 
 ### EVALUATION ###
 
-#xTestCounts = countVect.transform(xTest)
-#xTestTfidf = tfidTransformer.transform(xTestCounts)
+"""
+xTestCounts = countVect.transform(xTest)
+xTestTfidf = tfidTransformer.transform(xTestCounts)
 
-#predicted = classifier.predict(xTestTfidf)
-#print(classifier.predict_proba(xTestTfidf))
+predicted = classifier.predict(xTestTfidf)
+print(classifier.predict_proba(xTestTfidf))
 
-#print(xTestTfidf)
+print(xTestTfidf)
 
-#print(confusion_matrix(yTest, predicted))
-#print(accuracy_score(yTest, predicted))
+print(confusion_matrix(yTest, predicted))
+print(accuracy_score(yTest, predicted))
 
-#testInput = ['was you day nice', 'can you help me book a table?', 'can i reserve a table at blue dragon']
-# expected output: small talk, discoverability, discoverability
+testInput = ['was you day nice', 'can you help me book a table?', 'can i reserve a table at blue dragon']
+ expected output: small talk, discoverability, discoverability
 
-#processedTestInput = countVect.transform(i.strip('?').lower() for i in testInput)
-#processedTestInput = tfidTransformer.transform(processedTestInput)
+processedTestInput = countVect.transform(i.strip('?').lower() for i in testInput)
+processedTestInput = tfidTransformer.transform(processedTestInput)
 
-#print(classifier.predict(processedTestInput))
-#print(classifier.predict_proba(processedTestInput))
+print(classifier.predict(processedTestInput))
+print(classifier.predict_proba(processedTestInput))
+"""
 
 def stDiscClassifier(query):
     # Classifies an input as either small talk or discovery
@@ -96,7 +100,7 @@ def stDiscClassifier(query):
 
     probability = classifier.predict_proba(processedInput)
     
-    if probability.max() < minThreshold:
+    if probability.max() < minThreshold and (query not in ["1", "2", "3", "4"]):
         return ["unclear"]
     elif probability.max() > minThreshold and probability.max() < confidentTheshold:
         return ["confirm", classifier.predict(processedInput)]
