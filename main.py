@@ -2,15 +2,7 @@ from util import checkForExit
 from nameManagement import *
 from intentMatching import stDiscClassifier, smalltalkSimilarity
 from questionAnswering import qaSimilarity
-
-discoverability = """
-        What I can do:
-        1. Make a booking
-        2. Alter a booking
-        3. Cancel a booking
-        4. Find information on a restaurant
-            (e.g. opening times, address, contact info, etc.)
-"""
+from restaurantSystem import discoverabilitySimilarity
 
 def mainLoop(username):
     while True:
@@ -35,24 +27,26 @@ def mainLoop(username):
         ### INITIAL INTENT MATCHING ###
         initialIntent = stDiscClassifier(userInput)
         smalltalk = smalltalkSimilarity(userInput)
+        disc = discoverabilitySimilarity(userInput)
         
-        if initialIntent[0] == "unclear":
-            print("I don't understand, sorry. Please could you rephrase?")
-        elif initialIntent[0] == "confirm":
-            if initialIntent[1] == "small talk":
-                if smalltalk != False:
-                    print(smalltalk[1])
-                else:
-                    print("I don't understand, sorry. Please could you rephrase?")
-            else:
-                print(discoverability)
-        elif initialIntent[0] == "small talk":
-            if smalltalk != False:
+        if initialIntent[0] == "confirm":
+            if initialIntent[1] == "small talk" and smalltalk != False:
+                print(f"I think you said {smalltalk[0]}, so...")
                 print(smalltalk[1])
-            else:
-                print("I don't understand, sorry. Please could you rephrase?")
+            elif initialIntent[1] == "discoverability" and disc != False:
+                print(f"I think you said {disc[0]}, so...")
+                print(disc[1])
+
+        elif initialIntent[0] == "small talk" and smalltalk != False:
+            print(smalltalk[1])
+
+        elif initialIntent[0] == "discoverability" and disc != False:
+            print(disc[1])
+        
         else:
-            print(discoverability)
+            print("I don't understand, sorry. Please could you rephrase?")
+
+
 
 def main():
 

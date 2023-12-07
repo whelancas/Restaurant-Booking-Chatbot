@@ -6,6 +6,8 @@ from sklearn.metrics import accuracy_score, confusion_matrix
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
+### SMALLTALK COSINE SIMILARITY ###
+
 questions = []
 answers = []
 
@@ -28,9 +30,11 @@ def smalltalkSimilarity(userInput):
 
     if proability > 0.55: 
         return [mostSimilarQ, mostSimilarA]
+    
+    return False
 
 
-### INITIAL INTENT MATCHING ###
+### INITIAL INTENT MATCHING CLASSIFIER ###
 
 docs = {
     "small talk":       "smalltalk.csv",
@@ -82,6 +86,7 @@ classifier = LogisticRegression(random_state=0).fit(xTrainTF, yTrain)
 #print(classifier.predict_proba(processedTestInput))
 
 def stDiscClassifier(query):
+    # Classifies an input as either small talk or discovery
 
     minThreshold = 0.53
     confidentTheshold = 0.65
