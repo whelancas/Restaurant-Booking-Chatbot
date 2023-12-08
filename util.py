@@ -10,7 +10,7 @@ def checkForExit(username=setUsername):
     userInput = input(userTag)
 
     if userInput.lower() == "back":
-        print("Returning...\n")
+        print("Returning...")
         time.sleep(1)
 
     if userInput.lower() == "exit":

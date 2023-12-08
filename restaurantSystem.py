@@ -3,15 +3,6 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 from util import checkForExit
 
-discoverability = """
-        What I can do:
-        1. Make a booking
-        2. Alter a booking
-        3. Cancel a booking
-        4. Find information on a restaurant
-            (e.g. opening times, address, contact info, etc.)
-"""
-
 queries = []
 responses = []
 
@@ -32,17 +23,20 @@ def discoverabilitySimilarity(userInput):
     mostSimilarQ = queries[mostSimilarIndex]
     mostSimilarR = responses[mostSimilarIndex]
 
+    print(mostSimilarQ)
+    print(mostSimilarR)
+
     if probability > 0.55 or userInput in ["1", "2", "3", "4"]: 
         if mostSimilarR == "1" or userInput == "1":
             ret = bookingReservation()
-        elif mostSimilarR == "1" or userInput == "2":
+        elif mostSimilarR == "2" or userInput == "2":
             ret = editingReservation()
-        elif mostSimilarR == "1" or userInput == "3":
+        elif mostSimilarR == "3" or userInput == "3":
             ret = cancellingReservation()
-        elif mostSimilarR == "1" or userInput == "4":
+        elif mostSimilarR == "4" or userInput == "4":
             ret = restaurantInfo()
         else:
-            return [mostSimilarQ, discoverability]
+            return [mostSimilarQ, False]
         
         return [mostSimilarQ, ret]
     
@@ -54,15 +48,29 @@ def bookingReservation():
     print("To go back, type BACK.\n")
     userInput = checkForExit()
     if userInput.lower() == "back":
-        return
+        return "\n"
 
     print(userInput)
 
 def editingReservation():
-    return "Editing"
+    print("\n\nEditing a Reservation\n")
+
+    print("To go back, type BACK.\n")
+    userInput = checkForExit()
+    if userInput.lower() == "back":
+        return "\n"
+    
+    print(userInput)
 
 def cancellingReservation():
-    return "Cancelling"
+    print("\n\nCancel a Reservation\n")
+
+    print("To go back, type BACK.\n")
+    userInput = checkForExit()
+    if userInput.lower() == "back":
+        return "\n"
+    
+    print(userInput)
 
 restaurants = []
 with open("restaurants.csv", 'r', encoding='utf8') as file:
