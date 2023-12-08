@@ -28,19 +28,20 @@ def mainLoop(username):
         initialIntent = stDiscClassifier(userInput)
         smalltalk = smalltalkSimilarity(userInput)
         disc = discoverabilitySimilarity(userInput)
-        
+
         if initialIntent[0] == "confirm":
             if initialIntent[1] == "small talk" and smalltalk != False:
                 print(f"I think you said {smalltalk[0]}, so...")
                 print(smalltalk[1])
             elif initialIntent[1] == "discoverability" and disc != False:
                 print(f"I think you said {disc[0]}, so...")
+                print(disc[1])
 
         elif initialIntent[0] == "small talk" and smalltalk != False:
             print(smalltalk[1])
 
         elif initialIntent[0] == "discoverability" and disc != False:
-            pass
+            print(disc[1])
         
         else:
             print("I don't understand, sorry. Please could you rephrase?")

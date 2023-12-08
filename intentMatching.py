@@ -32,7 +32,7 @@ def smalltalkSimilarity(userInput):
     if probability > 0.55: 
         return [mostSimilarQ, mostSimilarA]
     
-    return False
+    return [False]
 
 
 ### INITIAL INTENT MATCHING CLASSIFIER ###

@@ -46,7 +46,7 @@ def discoverabilitySimilarity(userInput):
         
         return [mostSimilarQ, ret]
     
-    return False
+    return [False]
 
 def bookingReservation():
     print("\n\nMaking a Reservation\n")
