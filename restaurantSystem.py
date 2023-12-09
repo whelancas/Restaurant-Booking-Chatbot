@@ -3,6 +3,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 from util import checkForExit
 
+
 ### BRANCHING ###
 
 queries = []
@@ -41,6 +42,7 @@ def discoverabilitySimilarity(userInput, username):
     
     return [False]
 
+
 ### COLLECTED INFO ###
 
 reservation = {
@@ -50,6 +52,67 @@ reservation = {
     "time": "",
     "group size": ""
 }
+
+
+### VIEWING RESERVATION ###
+
+def viewReservation(username):
+    print("\n\nView Reservation\n")
+    for field in reservation:
+        print(f"{field}: {reservation[field]}")
+
+    print("\nBot: Is this correct (yes/no)?")
+    confirmInput = checkForExit(username)
+    if confirmInput.lower() == "back":
+        return "\n"
+    
+    if "y" in confirmInput.lower():
+        reference = f"{reservation['name']}{reservation['group size']}"
+        with open("bookings.csv", 'a', encoding='utf8') as bookingsFile:
+            bookingsFile.write(f"{reservation['name']},{reservation['restaurant']},{reservation['date']},{reservation['time']},{reservation['group size']},{reference}\n")
+
+        print(f"Bot: Your reservation has been made. Your reference code is {reference}.")
+
+    elif "n" in confirmInput.lower():
+        editingReservation(username)
+
+
+### FIND RESERVATION REFERENCE ###
+
+def findReference(username):
+    while True:
+        print("Bot: Please enter your booking reference code.")
+        refInput = checkForExit(username)
+        if refInput.lower() == "back":
+            return "\n"
+        
+        flag = 0
+        entries = []
+        with open("bookings.csv", 'r', encoding='utf8') as bookingsFile:
+            for line in bookingsFile:
+                entry = line.strip("\n").split(',')
+                if entry[5] == refInput:
+                    flag = 1
+                    reservation["name"] = entry[0]
+                    reservation["restaurant"] = entry[1]
+                    reservation["date"] = entry[2]
+                    reservation["time"] = entry[3]
+                    reservation["group size"] = entry[4]
+                else:
+                    entries.append(entry)
+        
+        if flag == 0:
+            print("\nBot: Your reference is not in my system, would you like to try again?")
+            continueInput = checkForExit(username)
+            if continueInput.lower() == "back" or "y" not in continueInput.lower():
+                return "\n"
+        if flag == 1:
+            break
+    
+    with open("bookings.csv", 'w', encoding='utf8') as bookingsFile:
+        for entry in entries:
+            bookingsFile.write(",".join(entry) + "\n")
+
 
 ### RESERVATION BOOKING ###       
         
@@ -72,24 +135,7 @@ def bookingReservation(username):
             if "y" in confirmInput.lower():
                 reservation[field] = userInput 
 
-    print("\n\nFinal confirmation\n")
-    for field in reservation:
-        print(f"{field}: {reservation[field]}")
-    print("\nBot: Is this correct (yes/no)?")
-
-    confirmInput = checkForExit(username)
-    if confirmInput.lower() == "back":
-        return "\n"
-    
-    if "y" in confirmInput.lower():
-        reference = f"{reservation['name']}{reservation['group size']}"
-        with open("bookings.csv", 'a', encoding='utf8') as bookingsFile:
-            bookingsFile.write(f"{reservation['name']},{reservation['restaurant']},{reservation['date']},{reservation['time']},{reservation['group size']},{reference}\n")
-
-        print(f"Bot: Your reservation has been made. Your reference code is {reference}.")
-
-    elif "n" in confirmInput.lower():
-        editingReservation(username)
+    viewReservation(username)
 
     return "\n"
 
@@ -100,23 +146,39 @@ def editingReservation(username):
     print("\n\nEditing a Reservation\n")
     print("Bot: To go back, type BACK.\n")
 
-    print("Bot: Please enter your booking reference code.")
-    userInput = checkForExit(username)
-    if userInput.lower() == "back":
-        return "\n"
+    findReference(username)
     
-    with open("bookings.csv", 'r', encoding='utf8') as bookingsFile:
-        for line in bookingsFile:
-            entry = line.split(',')
-            if entry[5] == userInput:
-                reservation["name"] = entry[0]
-                reservation["restaurant"] = entry[1]
-                reservation["date"] = entry[2]
-                reservation["time"] = entry[3]
-                reservation["group size"] = entry[4]
-    
+    print("\nBot: Your current reservation is\n")
     for field in reservation:
         print(f"{field}: {reservation[field]}")
+    
+    while True:
+        print("\nBot: What would you like to change?")
+        fieldInput = checkForExit(username)
+        if fieldInput.lower() == "back":
+            return "\n"
+        
+        if fieldInput.lower() in reservation:
+            print(f"\nBot: Please enter the new {fieldInput.lower()}")
+            newInput = checkForExit(username)
+            if newInput.lower() == "back":
+                return "\n"
+            
+            print(f"Bot: Please confirm that the {fieldInput.lower()} is {newInput} (yes/no)")
+            confirmInput = checkForExit(username)
+            if confirmInput.lower() == "back":
+                return "\n"
+                        
+            if "y" in confirmInput.lower():
+                reservation[fieldInput.lower()] = newInput
+                break
+
+        else:
+            print("Bot: Sorry, that's not one of the options.")
+
+    viewReservation(username)
+
+    return "\n"
 
 
 ### RESERVATION CANCELLING ###
@@ -125,10 +187,23 @@ def cancellingReservation(username):
     print("\n\nCancel a Reservation\n")
     print("Bot: To go back, type BACK.\n")
 
+    findReference(username)
+
+    print("Bot: Are you sure you want to cancel your reservation (yes/no)")
     userInput = checkForExit(username)
     if userInput.lower() == "back":
         return "\n"
     
+    if "y" in userInput.lower():
+        print("Bot: Reservation cancelled.")
+    else:
+        reference = f"{reservation['name']}{reservation['group size']}"
+        with open("bookings.csv", 'a', encoding='utf8') as bookingsFile:
+            bookingsFile.write(f"{reservation['name']},{reservation['restaurant']},{reservation['date']},{reservation['time']},{reservation['group size']},{reference}\n")
+        
+        print("Bot: Okay, nevermind.")
+
+    return "\n"
 
 
 ### RESTAURANT INFO ###
