@@ -1,20 +1,15 @@
 import time
 
-setUsername = "User"
-
-def checkForExit(username=setUsername):
-    global setUsername
-    setUsername = username
-
+def checkForExit(username):
     userTag = username + ": "
     userInput = input(userTag)
 
     if userInput.lower() == "back":
-        print("Returning...")
+        print("Bot: Returning...")
         time.sleep(1)
 
     if userInput.lower() == "exit":
-        print("Okay, goodbye!")
+        print("Bot: Okay, goodbye!")
         exit()
 
     return userInput
