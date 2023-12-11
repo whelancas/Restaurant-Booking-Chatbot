@@ -60,8 +60,8 @@ xTrain, yTrain = data, labels
 
 countVect = CountVectorizer()
 xTrainCounts = countVect.fit_transform(xTrain)
-tfidTransformer = TfidfTransformer(use_idf=True, sublinear_tf=True).fit(xTrainCounts)
-xTrainTF = tfidTransformer.transform(xTrainCounts)
+tfidfTransformer = TfidfTransformer(use_idf=True, sublinear_tf=True).fit(xTrainCounts)
+xTrainTF = tfidfTransformer.transform(xTrainCounts)
 
 classifier = LogisticRegression(random_state=0).fit(xTrainTF, yTrain)
 
@@ -96,7 +96,7 @@ def stDiscClassifier(query):
     confidentTheshold = 0.65
 
     processedInput = countVect.transform(i.strip('?').lower() for i in [query])
-    processedInput = tfidTransformer.transform(processedInput)
+    processedInput = tfidfTransformer.transform(processedInput)
 
     probability = classifier.predict_proba(processedInput)
     

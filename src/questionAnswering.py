@@ -11,8 +11,8 @@ with open("qa-dataset.csv", 'r', encoding='utf8') as file:
             answers.append(columns[1])
 
 def qaSimilarity(userInput):
-    tfidfVectoriser = TfidfVectorizer()
-    tdidfMatrix = tfidfVectoriser.fit_transform(questions + [userInput.strip('?').lower()])
+    tdfidfVectoriser = TfidfVectorizer()
+    tdidfMatrix = tdfidfVectoriser.fit_transform(questions + [userInput.strip('?').lower()])
 
     cosine = cosine_similarity(tdidfMatrix[-1], tdidfMatrix[:-1])
 
