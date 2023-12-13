@@ -11,7 +11,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 questions = []
 answers = []
 
-with open("smalltalk.csv", 'r', encoding='utf8') as file:
+with open("data/smalltalk.csv", 'r', encoding='utf8') as file:
     for line in file:
         columns = line.lower().strip('\n').strip('?').split(',')
         questions.append(columns[0])
@@ -38,8 +38,8 @@ def smalltalkSimilarity(userInput):
 ### INITIAL INTENT MATCHING CLASSIFIER ###
 
 docs = {
-    "small talk":       "smalltalk.csv",
-    "discoverability":  "discoverability.csv",
+    "small talk":       "data/smalltalk.csv",
+    "discoverability":  "data/discoverability.csv",
 }
 
 data = []

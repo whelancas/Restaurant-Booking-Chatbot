@@ -4,7 +4,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 questions = []
 answers = []
 
-with open("qa-dataset.csv", 'r', encoding='utf8') as file:
+with open("data/qa-dataset.csv", 'r', encoding='utf8') as file:
         for line in file:
             columns = line.lower().strip('\n').strip('?').split(',')
             questions.append(columns[0])

@@ -9,7 +9,7 @@ from util import checkForExit
 queries = []
 responses = []
 
-with open("discoverability.csv", 'r', encoding='utf8') as discFile:
+with open("data/discoverability.csv", 'r', encoding='utf8') as discFile:
     for line in discFile:
         columns = line.lower().strip('\n').strip('?').split(',')
         queries.append(columns[0])
@@ -68,7 +68,7 @@ def viewReservation(username):
     
     if "y" in confirmInput.lower():
         reference = f"{reservation['name']}{reservation['group size']}"
-        with open("bookings.csv", 'a', encoding='utf8') as bookingsFile:
+        with open("data/bookings.csv", 'a', encoding='utf8') as bookingsFile:
             bookingsFile.write(f"{reservation['name']},{reservation['restaurant']},{reservation['date']},{reservation['time']},{reservation['group size']},{reference}\n")
 
         print(f"Bot: Your reservation has been made. Your reference code is {reference}.")
@@ -88,7 +88,7 @@ def findReference(username):
         
         flag = 0
         entries = []
-        with open("bookings.csv", 'r', encoding='utf8') as bookingsFile:
+        with open("data/bookings.csv", 'r', encoding='utf8') as bookingsFile:
             for line in bookingsFile:
                 entry = line.strip("\n").split(',')
                 if entry[5] == refInput:
@@ -198,7 +198,7 @@ def cancellingReservation(username):
         print("Bot: Reservation cancelled.")
     else:
         reference = f"{reservation['name']}{reservation['group size']}"
-        with open("bookings.csv", 'a', encoding='utf8') as bookingsFile:
+        with open("data/bookings.csv", 'a', encoding='utf8') as bookingsFile:
             bookingsFile.write(f"{reservation['name']},{reservation['restaurant']},{reservation['date']},{reservation['time']},{reservation['group size']},{reference}\n")
         
         print("Bot: Okay, nevermind.")
@@ -209,7 +209,7 @@ def cancellingReservation(username):
 ### RESTAURANT INFO ###
 
 restaurants = []
-with open("restaurants.csv", 'r', encoding='utf8') as restFile:
+with open("data/restaurants.csv", 'r', encoding='utf8') as restFile:
     for line in restFile:
         restaurants.append(line.strip("\n").split(","))
 
@@ -226,5 +226,3 @@ def restaurantInfo():
                 """)
     
     return "\n"
-
-
